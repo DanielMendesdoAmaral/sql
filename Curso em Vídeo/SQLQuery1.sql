@@ -1,3 +1,6 @@
+-- DDL -> Data Definition Language (Linguagem de Definição de Dados (Define a estrutura dos bancos de dados e tabelas).) -> CREATE DATABASE, CREATE TABLE, ALTER TABLE, DROP TABLE
+-- DML -> Data Manipulation Language (Linguagem de Manipulação de Dados (Manipula os dados).) -> INSERT INTO
+
 --AULA 3- CRIANDO O PRIMEIRO BANCO DE DADOS
 
 create database cadastro; -- Cria um banco de dados chamado "cadastro". Não esqueça de quando fazer alguma coisa, atualizar para visualizar.
@@ -32,7 +35,7 @@ go
 -- Constraints - Regras de criação, por exemplo, not null, collate, etc.
 -- Use nvarchar, que suporta caracteres UTF-8. Acho que não tem outro jeito, pois os collates não são diretamente UTF-8, é tipo uma gambiarra.
 
--- Strings ou caracteres em SQL devem vir em aspas simples. 
+-- Dados em SQL devem vir em aspas simples. O que não estiver em aspas simples são constraints.
 
 CREATE DATABASE cadastro
 COLLATE LATIN1_GENERAL_100_CI_AS_SC_UTF8; -- Cria um banco de dados chamado "cadastro" (o antigo foi apagado), onde ele só permitirá caracteres do tipo UTF-8.
@@ -49,3 +52,111 @@ CREATE TABLE pessoas (
 );
 
 SELECT * FROM pessoas;
+
+
+
+
+
+-- AULA 5- INSERINDO DADOS NA TABELA (INSERT INTO)
+
+USE cadastro;
+INSERT INTO pessoas -- Insere na tabela pessoas os valores...
+(nome, nascimento, sexo, peso, altura) -- Note que não colocamos id nem nacionalidade, pois o id é auto-increment e a nacionalidade, se não digitar nada, é "Brasil".
+VALUES
+('Lauro', '1938-08-08', 'M', '70', '1.75'); -- Datas em SQL seguem o seguinte formato: AAAA-DD-MM
+
+USE cadastro;
+INSERT INTO pessoas 
+(nome, nascimento, sexo, peso, altura)
+VALUES
+('Maria', '1960-08-03', 'F', '53', '1.55'), -- Neste exemplo cadastramos várias pessoas em apenas um INSERT INTO.
+('Juninho', '1992-30-04', 'M', '65', '1.80'),
+('Daniel', '2003-13-08', 'M', '50', '1.75');
+SELECT * FROM pessoas;
+
+USE cadastro;
+INSERT INTO pessoas VALUES
+('Mariana', '1985-05-09', 'F', '55', '1.55', DEFAULT); -- Neste exemplo não colocamos os campos a serem preenchidos. Para este caso, coloque todos os campos corretamente nos construtores. Não colocamos o id pois ele já está especificado por padrão. A nacionalidade colocamos default pois queremos o padrão, ou seja, Brasil.
+SELECT * FROM pessoas;
+
+USE cadastro;
+INSERT INTO pessoas
+(altura, peso, sexo, nascimento, nome, nacionalidade) -- Neste exemplo invertemos a ordem do construtor. Coloque esta linha apenas se você quiser omitir algum dado ou inverter a ordem. Caso o contrário não precisa.
+VALUES
+('1.85', '95', 'M', '1972-11-01', 'Cristiano', 'Portugal'),
+('1.55', '70', 'F', '2002-24-06', 'Kamilly', DEFAULT);
+SELECT * FROM pessoas;
+
+
+
+
+
+-- AULA 6- ALTERANDO A ESTRUTURA DA TABELA (ALTER TABLE E DROP TABLE)
+
+-- Coluna = campo de uma tabela.
+
+USE cadastro;
+ALTER TABLE pessoas
+ADD profissao NVARCHAR(10);
+SELECT * FROM pessoas;  -- Adiciona a coluna "profissao" à tabela "pessoas".
+
+USE cadastro;
+ALTER TABLE pessoas
+DROP COLUMN profissao; -- Apaga a coluna "profissao".
+SELECT * FROM pessoas;
+
+USE cadastro;
+ALTER TABLE pessoas
+ADD profissao NVARCHAR(10);
+
+USE cadastro;
+ALTER TABLE pessoas
+ALTER COLUMN profissao NVARCHAR(20); -- Modificamos o tipo da coluna. Você também pode modificar as constraints.
+
+-- Em SQL, para renomear, não dá para usar o LATER TABLE. Mas, temos uma solução:
+
+USE cadastro;
+EXEC sp_rename 'pessoas', 'gafanhotos'; -- Renomeia a tabela "pessoas" para "gafanhotos".
+SELECT * FROM gafanhotos;
+
+USE cadastro;
+EXEC sp_rename 'gafanhotos.peso', 'massa'; -- Renomeia a coluna "peso" para "massa".
+SELECT * FROM gafanhotos;
+
+USE cadastro;
+IF NOT EXISTS (SELECT * FROM SYSOBJECTS WHERE NAME='cursos' AND XTYPE='u') -- Só vai criar a tabela se não existir, assim, não dará problemas.
+	CREATE TABLE cursos (
+		nome NVARCHAR(30) NOT NULL UNIQUE, -- Unique é uma constraint que não aceita registros iguais.
+		descricao NVARCHAR(4000),
+		carga INT,
+		totalAulas INT,
+		ano DATETIME DEFAULT '2016'
+	);
+SELECT * FROM cursos;
+
+USE cadastro;
+ALTER TABLE cursos
+ADD id INT IDENTITY(1,1); 
+SELECT * FROM cursos;
+
+USE cadastro;
+ALTER TABLE cursos
+ADD PRIMARY KEY(id); -- Para adicionar uma coluna como chave primária após a tabela já ter sido construída.
+SELECT * FROM cursos;
+
+USE cadastro;
+CREATE TABLE apagar (
+	auxiliar CHAR,
+	apagarColuna INT
+);
+SELECT * FROM apagar;
+
+USE cadastro;
+ALTER TABLE apagar
+DROP COLUMN apagarColuna; -- Apaga a coluna "apagarColuna" da tabela "apagar".
+SELECT * FROM apagar;
+
+USE cadastro;
+DROP TABLE apagar; -- Apaga a tabela "apagar".
+
+-- Para apagar um banco de dados use "DROP DATABASE nome_database"
