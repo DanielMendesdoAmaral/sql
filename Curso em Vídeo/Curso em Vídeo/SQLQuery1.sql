@@ -212,26 +212,3 @@ SELECT * FROM cursos;
 
 TRUNCATE TABLE cursos; -- Apaga TODOS os registros da tabela cursos.
 SELECT * FROM cursos;
-
-
-
-
-
--- AULA 8- FAZER BACKUP E DUMPS
-
--- Backup: É sempre bom ter um backup de um banco de dados antes de fazer updates, deletes, pois são operações de risco.
--- Dump: É o nome dado a um backup. Você pode importar qualquer dump para o seu servidor. Por exemplo, o servidor que vai ser usado, é um backup gerado pelo Curso em Vídeo. Ou seja, é um dump.
-
-
--- Para fazer um backup via SMSS 
--- Pesquisador de Objetos -> Selecione o servidor -> Bancos de Dados -> Clique com o botão direito do mouse no banco de dados que voce deseja fazer o backup -> Tarefas -> Fazer Backup.
-
-
--- Para restaurar um banco de dados via SMSS
--- Pesquisador de Objetos -> Selecione o servidor -> Clique com o botão direito em Bancos de Dados -> Restaurar Banco de Dados. Lembre-se que o backup não pode ser retirado da pasta onde você colocou ele.
-
-USE master;
-DROP DATABASE cadastro; -- Excluindo o banco de dados
-
-USE cadastro;
-SELECT * FROM gafanhotos; -- Restaurei o banco de dados
