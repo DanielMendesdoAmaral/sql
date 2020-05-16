@@ -1,5 +1,5 @@
 -- DDL -> Data Definition Language (Linguagem de Definição de Dados (Define a estrutura dos bancos de dados e tabelas).) -> CREATE DATABASE, CREATE TABLE, ALTER TABLE, DROP TABLE
--- DML -> Data Manipulation Language (Linguagem de Manipulação de Dados (Manipula os dados).) -> INSERT INTO
+-- DML -> Data Manipulation Language (Linguagem de Manipulação de Dados (Manipula os dados).) -> INSERT INTO, UPDATE, DELETE, TRUNCATE
 
 --AULA 3- CRIANDO O PRIMEIRO BANCO DE DADOS
 
@@ -93,7 +93,7 @@ SELECT * FROM pessoas;
 
 -- AULA 6- ALTERANDO A ESTRUTURA DA TABELA (ALTER TABLE E DROP TABLE)
 
--- Coluna = campo de uma tabela.
+-- Coluna = campo de uma tabela. Para mexer em colunas, use alter table.
 
 USE cadastro;
 ALTER TABLE pessoas
@@ -160,3 +160,55 @@ USE cadastro;
 DROP TABLE apagar; -- Apaga a tabela "apagar".
 
 -- Para apagar um banco de dados use "DROP DATABASE nome_database"
+
+
+
+
+
+-- AULA 7- MANIPULANDO LINHAS (UPDATE, DELETE E TRUNCATE)
+
+-- Registro = linha = tupla
+
+USE cadastro;
+INSERT INTO cursos VALUES
+('HTML4', 'Curso de HTML5', '40', '37', '2014'),
+('Algoritmos', 'Lógica de Programação', '20', '15', '2014'),
+('Photoshop', 'Dicas de Photoshop CC', '10', '8', '2014'),
+('PGP', 'Curso de PHP para iniciantes', '40', '20', '2010'),
+('Jarva', 'Introdução à Linguagem Java', '10', '29', '2000'),
+('MySQL', 'Banco de Dados MySQL', '30', '15', '2016'),
+('Word', 'Curso completo de Word', '40', '30', '2018'),
+('Sapateado', 'Danças Rítmicas', '40', '30', '2018'),
+('Cozinha Árabe', 'Aprenda a fazer kibe', '40', '30', '2018'),
+('YouTuber', 'Gerar polêmica e ganhar inscritos', '5', '2', '2018');
+SELECT * FROM cursos;
+
+UPDATE cursos
+SET nome = 'HTML5' -- Coloca o nome "HTML5" no registro que tem o id "1". Note a importância de uma chave primária.
+WHERE id = '1';
+SELECT * FROM cursos;
+
+UPDATE cursos
+SET nome = 'PHP', ano = '2015' -- Muda dois atributos ao mesmo tempo.
+WHERE id = '4';
+SELECT * FROM cursos;
+
+UPDATE cursos 
+SET nome = 'Java', carga = '40', ano = '2015'
+WHERE id = '5';
+SELECT * FROM cursos;
+
+DELETE FROM cursos
+WHERE id = '8'; -- Deleta da tabela o objeto com id 8.
+SELECT * FROM cursos;
+
+DELETE FROM cursos
+WHERE id = '9';
+SELECT * FROM cursos;
+
+DELETE FROM cursos
+WHERE id = '10';
+SELECT * FROM cursos;
+
+TRUNCATE TABLE cursos; -- Apaga TODOS os registros da tabela cursos.
+SELECT * FROM cursos;
