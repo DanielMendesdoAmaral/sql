@@ -1,5 +1,6 @@
 -- DDL -> Data Definition Language (Linguagem de Definição de Dados (Define a estrutura dos bancos de dados e tabelas).) -> CREATE DATABASE, CREATE TABLE, ALTER TABLE, DROP TABLE
 -- DML -> Data Manipulation Language (Linguagem de Manipulação de Dados (Manipula os dados).) -> INSERT INTO, UPDATE, DELETE, TRUNCATE
+-- DQL -> Data Query Language (Linguagem de Consulta de Dados (Seleciona os dados, faz consultas).) -> SELECT
 
 --AULA 3- CRIANDO O PRIMEIRO BANCO DE DADOS
 
@@ -212,3 +213,71 @@ SELECT * FROM cursos;
 
 TRUNCATE TABLE cursos; -- Apaga TODOS os registros da tabela cursos.
 SELECT * FROM cursos;
+
+
+
+
+
+-- AULA 8- FAZER BACKUP E DUMPS
+
+-- Backup: É sempre bom ter um backup de um banco de dados antes de fazer updates, deletes, pois são operações de risco.
+-- Dump: É o nome dado a um backup. Você pode importar qualquer dump para o seu servidor. Por exemplo, o servidor que vai ser usado, é um backup gerado pelo Curso em Vídeo. Ou seja, é um dump.
+
+
+-- Para fazer um backup via SMSS 
+-- Pesquisador de Objetos -> Selecione o servidor -> Bancos de Dados -> Clique com o botão direito do mouse no banco de dados que voce deseja fazer o backup -> Tarefas -> Fazer Backup.
+
+
+-- Para restaurar um banco de dados via SMSS
+-- Pesquisador de Objetos -> Selecione o servidor -> Clique com o botão direito em Bancos de Dados -> Restaurar Banco de Dados. Lembre-se que o backup não pode ser retirado da pasta onde você colocou ele.
+
+USE master;
+DROP DATABASE cadastro; -- Excluindo o banco de dados
+
+USE cadastro;
+SELECT * FROM gafanhotos; -- Restaurei o banco de dados
+
+
+
+
+
+-- AULA 11 - SELECT
+
+-- A partir da aula 11 trabalharemos com o dump do curso em vídeo. Segue as novas tabelas:
+
+USE cadastro;
+SELECT * FROM gafanhotos;
+SELECT * FROM cursos;
+
+-- * = Todas as colunas
+
+SELECT * FROM cursos
+ORDER BY nome; -- Seleciona todos os cursos ordenando crescentemente por nome.
+
+SELECT * FROM cursos
+ORDER BY nome DESC; -- Seleciona todos os cursos ordenando decrescentemente por nome.
+
+SELECT nome, descricao FROM cursos; -- Seleciona apenas as colunas nome e descricao.
+
+SELECT ano, nome FROM cursos
+ORDER BY ano, nome; -- Ordena por ano e por nome.
+
+USE cadastro;
+SELECT nome FROM cursos
+WHERE ano = '2016' -- Seleciona todos que são de 2016.
+ORDER BY nome;
+
+USE cadastro;
+SELECT nome, ano FROM cursos
+WHERE ano <= 2019 AND ano >= 2014 -- Seleciona todos cursos de 2014 à 2019.
+ORDER BY ano;
+
+USE cadastro;
+SELECT nome, carga FROM cursos
+WHERE carga BETWEEN 20 AND 40 -- Seleciona todos cursos com carga horária entre (between) 20 e 40.
+ORDER BY ano;
+
+USE cadastro;
+SELECT nome, descricao, ano FROM cursos
+WHERE ano IN (2014,2016) -- Seleciona todos os cursos de 2014 e 2016.
+ORDER BY ano;

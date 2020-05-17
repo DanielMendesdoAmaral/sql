@@ -1,1 +1,5 @@
-Esses backups que estão aqui não funcionam. O backup que funciona está na pasta de backup do SMSS.
+O backup cadastro.bak não funciona. O backup que funciona está na pasta de backup do SMSS.
+
+Deixei aqui também a query caso a original seja apagada.
+
+Está também a query do dump do cev.
