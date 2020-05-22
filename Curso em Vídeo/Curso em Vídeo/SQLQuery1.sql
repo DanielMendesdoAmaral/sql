@@ -241,7 +241,7 @@ SELECT * FROM gafanhotos; -- Restaurei o banco de dados
 
 
 
--- AULA 11 - SELECT
+-- AULA 11 - SELECT 1
 
 -- A partir da aula 11 trabalharemos com o dump do curso em vídeo. Segue as novas tabelas:
 
@@ -281,3 +281,156 @@ USE cadastro;
 SELECT nome, descricao, ano FROM cursos
 WHERE ano IN (2014,2016) -- Seleciona todos os cursos de 2014 e 2016.
 ORDER BY ano;
+
+
+
+
+
+-- AULA 12 - SELECT 2
+
+USE cadastro;
+SELECT * FROM cursos
+WHERE nome LIKE 'P%' -- Seleciona todos os cursos que tem a letra P no início do nome. 
+ORDER BY nome;
+
+-- A porcentagem (vista acima) é um símbolo coringa (wildcard). Você pode usá-la em diferentes posições para obter diferentes resultados. Não importa se a letra for maiúscula ou minúscula, com acento ou sem acento, se tiver a letra em questão, ele mostrará.
+
+USE cadastro;
+SELECT * FROM cursos
+WHERE nome LIKE '%A%' -- Isso acha o A em qualquer posição, e não apenas no meio como parece. Isso por que o coringa % pode achar letras ou ser vazio.
+ORDER BY nome;
+
+USE cadastro;
+SELECT * FROM cursos
+WHERE nome NOT LIKE '%A%' -- Seleciona todos cursos que não tem a letra A.
+ORDER BY nome;
+
+USE cadastro;
+SELECT * FROM cursos
+WHERE nome LIKE 'PH%P%' -- Usando mais de uma %.
+ORDER BY nome;
+
+-- Temos outra wildcard que é "_". Ele significa que tem um caractere na frente. Veja o exemplo a seguir.
+
+USE cadastro;
+SELECT * FROM cursos
+WHERE nome LIKE 'PH%P_' -- Seleciona todos cursos que começam com ph, e terminam com p com alguma coisa na frente do p.
+ORDER BY nome;
+
+USE cadastro;
+SELECT DISTINCT carga from cursos; -- Mostra as cargas registradas na tabela.
+
+-- FUNÇÕES DE AGREGAÇÃO.
+
+USE cadastro;
+SELECT COUNT(*) FROM cursos; -- Conta quantos cursos tem cadastrados. É uma função de agregação.
+
+USE cadastro;
+SELECT COUNT(nome) FROM cursos -- Conta quantos cursos com mais de 40 horas tem cadastrados.
+WHERE carga > 40;
+
+USE cadastro;
+SELECT MAX(carga) FROM cursos; -- Mostra a maior carga entre os cursos cadastrados.
+
+USE cadastro;
+SELECT MAX(carga) FROM cursos -- Mostra a maior carga de cursos em 2016.
+WHERE ano=2016;
+
+USE cadastro;
+SELECT MIN(carga) FROM cursos; -- Mostra a menor carga dentre os cursos cadastrados.
+
+USE cadastro;
+SELECT SUM(totaulas) FROM cursos; -- Mostra a soma de aulas.
+
+USE cadastro;
+SELECT AVG(totaulas) FROM cursos
+WHERE ano = 2016; -- Mostra a média de aulas.
+
+-- EXERCÍCIOS
+
+-- 1- Uma lista com o nome de todas as gafanhotas.
+
+USE cadastro;
+SELECT nome FROM gafanhotos
+WHERE sexo = 'F';
+
+-- 2- Uma lista com os dados de todos aqueles que nasceram entre 1/Jan/2000 e 31/Dez/2015.
+
+USE cadastro;
+SELECT * FROM gafanhotos
+WHERE nascimento >= '2000-01-01' AND nascimento <= '2015-12-31';
+
+-- 3- Uma lista com o nome de todos os homens que trabalham como Programadores.
+
+USE cadastro;
+SELECT nome FROM gafanhotos
+WHERE profissao = 'Programador' AND sexo = 'M';
+
+-- 4- Uma lista com todos os dados de todas as mulheres que nasceram no Brasil e que têm seu nome iniciando com a letra J.
+
+USE cadastro;
+SELECT * FROM gafanhotos 
+WHERE nacionalidade = 'Brasil' AND sexo = 'F' AND nome LIKE 'J%';
+
+-- 5- Uma lista com o nome e nacionalidade de todos os homens que têm Silva no nome, não nasceram no Brasil e pesam menos de 100kg.
+
+USE cadastro;
+SELECT nome, nacionalidade FROM gafanhotos
+WHERE sexo = 'M' AND nome LIKE '%silva%' AND nacionalidade != 'Brasil' AND peso < 100;
+
+-- 6- Qual é a maior altura entre gafanhotos homens que moram no Brasil?
+
+USE cadastro;
+SELECT MAX(altura) FROM gafanhotos 
+WHERE sexo = 'M' AND nacionalidade = 'Brasil';
+
+-- 7- Qual é a média de peso dos gafanhotos homens cadastrados?
+
+USE cadastro;
+SELECT AVG(peso) AS media_peso_gafanhotos_homens FROM gafanhotos -- AS cria uma coluna para exibir o resultado.
+WHERE sexo = 'M'; 
+
+-- 8- Qual é o menor peso entre as gafanhotas que nasceram fora do Brasil e entre 01/Jan/1990 e 31/Dez/2000?
+
+USE cadastro;
+SELECT MIN(peso) AS menor_peso FROM gafanhotos
+WHERE sexo = 'F' AND nacionalidade != 'Brasil' AND nascimento >= '1990-01-01' AND nascimento <= '2000-12-31';
+
+-- 9- Quantas gafanhotas tem mais de 1.90m de altura?
+
+USE cadastro;
+SELECT COUNT(*) FROM gafanhotos
+WHERE sexo = 'F' AND altura > 1.90;
+
+
+
+
+
+-- AULA 13- SELECT 3
+
+USE cadastro;
+SELECT carga FROM cursos
+GROUP BY carga; -- Agrupa os elementos por carga. Diferente do distinct, que distingue.
+
+USE cadastro;
+SELECT carga, COUNT(nome) AS quantidade FROM cursos -- Mostra quantos cursos tem de cada carga horária.
+GROUP BY carga
+ORDER BY quantidade;
+
+USE cadastro;
+SELECT carga, COUNT(nome) AS quantidade FROM cursos -- Mostra quantos cursos tem de cada carga horária, mas somente se tiver mais de 3.
+GROUP BY carga
+HAVING COUNT(nome) > 3
+ORDER BY quantidade;
+
+USE cadastro;
+SELECT ano, COUNT(*) AS quantidade FROM cursos 
+WHERE ano > 2015 -- Seleciona a quantidade de cursos de cada ano acima de 2015.
+GROUP BY ano
+ORDER BY ano;
+
+USE cadastro;
+SELECT carga, COUNT(*) AS quantidade FROM cursos 
+WHERE carga > (SELECT AVG(carga) FROM cursos) -- Sleciona todos os cursos com carga maior que a média de carga de todos os cursos.
+GROUP BY carga
+ORDER BY carga;
