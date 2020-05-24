@@ -1,0 +1,1 @@
+A relação vira uma entidade. A partir daí, relacionamos a nova entidade com as antigas entidades, e o relacionamento SEMPRE ficará 1-n n-1. A partir daí, é um relacionamento normal de 1-n.
