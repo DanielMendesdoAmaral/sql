@@ -470,3 +470,74 @@ SELECT altura, COUNT(*) AS quantidade FROM gafanhotos
 WHERE peso > 100 AND altura > (SELECT AVG(altura) FROM gafanhotos)
 GROUP BY altura
 ORDER BY quantidade;
+
+
+
+
+
+-- AULA 15- CHAVES ESTRANGEIRAS E JOIN
+
+-- ACID - Atomicidade, Consistência, Isolamento e Durabilidade.
+
+-- Relacionamento de n-1: Pegue a chave primária do lado 1 e envie como estrangeira para o lado n. As chaves estrangeira e primária devem ser do mesmo tipo.
+
+USE cadastro;
+SELECT * FROM gafanhotos;
+SELECT * FROM cursos;
+
+USE cadastro;
+ALTER TABLE gafanhotos
+ADD cursopreferido INT; -- Adicionamos uma tabela em gafanhotos onde ficará os cursos preferidos de cada gafanhoto.
+SELECT * FROM gafanhotos;
+
+USE cadastro;
+ALTER TABLE gafanhotos
+ADD FOREIGN KEY (cursopreferido)
+REFERENCES cursos(idcurso); -- Adicionamos uma chave estrangeira na coluna cursopreferido, que vem da coluna idcurso da tabela cursos.
+SELECT * FROM gafanhotos;
+
+USE cadastro;
+UPDATE gafanhotos
+SET cursopreferido = '6' -- Adicionamos o curso preferido (com id 6, MySQL) do gafanhoto (com id 1, Daniel Morais). Fazemos isso mais 4 vezes abaixo.
+WHERE id = '1';
+SELECT * FROM gafanhotos;
+
+USE cadastro;
+UPDATE gafanhotos
+SET cursopreferido = '4'
+WHERE id = '2';
+SELECT * FROM gafanhotos;
+
+USE cadastro;
+UPDATE gafanhotos
+SET cursopreferido = '8' 
+WHERE id = '3';
+SELECT * FROM gafanhotos;
+
+USE cadastro;
+UPDATE gafanhotos
+SET cursopreferido = '15' 
+WHERE id = '4';
+SELECT * FROM gafanhotos;
+
+USE cadastro;
+UPDATE gafanhotos
+SET cursopreferido = '24' 
+WHERE id = '5';
+SELECT * FROM gafanhotos;
+
+-- Note que relacionamos o ID dos cursos preferidos. Mas, e se quisermos saber o NOME dos cursos preferidos? Usamos as junções (INNER JOIN/OUTER JOIN).
+
+SELECT gafanhotos.nome, cursos.nome FROM gafanhotos
+JOIN cursos -- Este join é o inner join. Vide o slide da aula 15. Temos também o outer join. Usamos o inner join quando queremos saber quem prefere o quê, ou quem é preferido.
+ON cursos.idcurso = gafanhotos.cursopreferido; -- O que acontece aqui? Selecionamos a colunas nome e cursopreferido da tabela gafanhotos, juntando com a tabela cursos onderso é igual o curso preferido da tabela gafanhotos, estabelecendo uma relação entre as duas tabelas.
+
+-- JOIN COM LEFT E RIGHT -> AO UTILIZARMOS LEFT OUTER JOIN (OU SIMPLESMENTE LEFT JOIN), ESTAMOS NOS REFERINDO À TABELA QUE ESTÁ À ESQUERDA DO JOIN. SE RIGHT, À DIREITA DO JOIN.
+
+SELECT gafanhotos.nome, cursos.nome FROM gafanhotos 
+LEFT OUTER JOIN cursos -- Este é o left outer join. Por exemplo: Tem gafanhotos que não preferem curso nenhum. Até então só selecionamos os gafanhotos que preferem algum curso. Se quisermos mostrar também os que não preferem, utilizamos left outer join.
+ON cursos.idcurso = gafanhotos.cursopreferido; 
+
+SELECT gafanhotos.nome, cursos.nome FROM gafanhotos 
+RIGHT OUTER JOIN cursos -- Este é o right outer join. Por exemplo: Tem cursos que não são preferidos de nenhum gafanhoto. Até então só selecionamos os cursos preferidos por algum gafanhoto. Se quisermos mostrar também os que não são preferidos, utilizamos right outer join.
+ON cursos.idcurso = gafanhotos.cursopreferido; 
