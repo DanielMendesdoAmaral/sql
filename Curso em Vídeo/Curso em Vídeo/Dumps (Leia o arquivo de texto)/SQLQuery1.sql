@@ -114,7 +114,7 @@ USE cadastro;
 ALTER TABLE pessoas
 ALTER COLUMN profissao NVARCHAR(20); -- Modificamos o tipo da coluna. Você também pode modificar as constraints.
 
--- Em SQL, para renomear, não dá para usar o LATER TABLE. Mas, temos uma solução:
+-- Em SQL, para renomear, não dá para usar o ALTER TABLE. Mas, temos uma solução:
 
 USE cadastro;
 EXEC sp_rename 'pessoas', 'gafanhotos'; -- Renomeia a tabela "pessoas" para "gafanhotos".
@@ -526,6 +526,12 @@ SET cursopreferido = '24'
 WHERE id = '5';
 SELECT * FROM gafanhotos;
 
+USE cadastro;
+UPDATE gafanhotos
+SET cursopreferido = '24' 
+WHERE id = '6';
+SELECT * FROM gafanhotos;
+
 -- Note que relacionamos o ID dos cursos preferidos. Mas, e se quisermos saber o NOME dos cursos preferidos? Usamos as junções (INNER JOIN/OUTER JOIN).
 
 SELECT gafanhotos.nome, cursos.nome FROM gafanhotos
@@ -541,3 +547,35 @@ ON cursos.idcurso = gafanhotos.cursopreferido;
 SELECT gafanhotos.nome, cursos.nome FROM gafanhotos 
 RIGHT OUTER JOIN cursos -- Este é o right outer join. Por exemplo: Tem cursos que não são preferidos de nenhum gafanhoto. Até então só selecionamos os cursos preferidos por algum gafanhoto. Se quisermos mostrar também os que não são preferidos, utilizamos right outer join.
 ON cursos.idcurso = gafanhotos.cursopreferido; 
+
+
+
+
+
+-- AULA 16- INNER JOIN COM VÁRIAS TABELAS
+
+-- Para relacionar n-n, criamos uma nova tabela e adicionamos as chaves estrangeiras.
+
+USE cadastro;
+CREATE TABLE gafanhotoAssisteCurso (
+	id INT IDENTITY PRIMARY KEY,
+	data_ DATE,
+	idgafanhoto INT FOREIGN KEY REFERENCES gafanhotos(id),
+	idcurso INT FOREIGN KEY REFERENCES cursos(idcurso)
+);
+SELECT * FROM gafanhotoAssisteCurso;
+
+USE cadastro;
+INSERT INTO gafanhotoAssisteCurso VALUES
+('2019-08-13', '1', '5'),
+('2019-12-22', '1', '8'),
+('2020-02-01', '1', '13'), -- Aqui inserimos valores n-n. Sem querer eu inseri 2 vezes.
+('2015-08-13', '55', '7'),
+('2019-06-10', '55', '8')
+SELECT * FROM gafanhotoAssisteCurso;
+
+SELECT g.nome, c.nome FROM gafanhotos AS g
+JOIN gafanhotoAssisteCurso AS a
+ON g.id = a.idgafanhoto -- Usamos dois joins.
+JOIN cursos AS c 
+ON c.idcurso = a.idcurso;
