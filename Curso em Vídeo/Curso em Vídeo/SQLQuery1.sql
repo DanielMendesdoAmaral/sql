@@ -234,6 +234,9 @@ SELECT * FROM cursos;
 USE master;
 DROP DATABASE cadastro; -- Excluindo o banco de dados
 
+ALTER DATABASE [database name] SET SINGLE_USER WITH ROLLBACK IMMEDIATE -- Este comando apaga banco de dados também.
+DROP DATABASE [database name];
+
 USE cadastro;
 SELECT * FROM gafanhotos; -- Restaurei o banco de dados
 
