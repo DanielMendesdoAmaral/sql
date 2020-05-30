@@ -11,18 +11,18 @@ da agência. As informações a serem mantidas sobre cada cidade referem-se a hotéi
 formam (simples, mediano, luxo, superluxo), o número dos quartos e o valor da diária de acordo com o tipo do quarto.
 	-- Sobre cada cidade deve-se armazenar seu nome, seu estado e a população. Além disso, quando uma nova cidade é cadastrada no banco de dados da agência, um código é a 
 ela oferecido.
-	Cada restaurante da cidade possui um código que o identifica, um nome, um endereço e o tipo de sua categoria (luxo, simples, ...). Além disso, um restaurante pode
+	-- Cada restaurante da cidade possui um código que o identifica, um nome, um endereço e o tipo de sua categoria (luxo, simples, ...). Além disso, um restaurante pode
 pertencer a um hotel e um hotel somente pode ser associado a um restaurante. 
-	Diferentes pontos turísticos da cidade estão cadastrados no sistema: igrejas, casas de show e museus. A agência de turismo somente trabalha com estes três tipos de 
+	-- Diferentes pontos turísticos da cidade estão cadastrados no sistema: igrejas, casas de show e museus. A agência de turismo somente trabalha com estes três tipos de 
 pontos turísticos. Nenhum outro é possível. 
-	Além da descrição e do endereço, igrejas devem possuir como característica a data e o estilo de construção. 
-	Já casas de show devem armazenar o horário de início do show (igual para todos os dias da semana) e o dia de fechamento (apenas um único dia na semana), além da 
+	-- Além da descrição e do endereço, igrejas devem possuir como característica a data e o estilo de construção. 
+	-- Já casas de show devem armazenar o horário de início do show (igual para todos os dias da semana) e o dia de fechamento (apenas um único dia na semana), além da 
 descrição e do seu endereço. 
-	Finalmente, os museus devem armazenar o seu endereço, descrição, data de fundação e número de salas. Um museu pode ter sido fundado por vários fundadores. Para estes,
+	-- Finalmente, os museus devem armazenar o seu endereço, descrição, data de fundação e número de salas. Um museu pode ter sido fundado por vários fundadores. Para estes,
 deve-se armazenar o seu nome, a data de nascimento e a data da morte (se houver), a nacionalidade e a atividade profissional que desenvolvia. Além disso, um mesmo 
 fundador pode ter fundado vários museus. 
-	Quando qualquer ponto turístico é cadastrado no sistema, ele também recebe um código que o identifica. O mesmo é válido para fundadores.
-	Finalmente, casas de show podem possuir restaurante. Quando o cliente da agência reserva um passeio para uma casa de show, ele já sabe se esta possui restaurante e 
+	-- Quando qualquer ponto turístico é cadastrado no sistema, ele também recebe um código que o identifica. O mesmo é válido para fundadores.
+	-- Finalmente, casas de show podem possuir restaurante. Quando o cliente da agência reserva um passeio para uma casa de show, ele já sabe se esta possui restaurante e 
 qual o preço médio da refeição, além da especialidade (comida chinesa, japonesa, brasileira, italiana, ...). Dentro de uma casa de show, apenas um único restaurante pode 
 existir.
 
