@@ -37,3 +37,52 @@ objeto físico, e não como uma cadeia de hotéis. O mesmo vale para restaurante e 
 */
 
 CREATE DATABASE agenciaTurismo;
+
+USE agenciaTurismo;
+CREATE TABLE cidades (
+	codigo TINYINT IDENTITY(1,1) PRIMARY KEY,
+	nome VARCHAR(40) UNIQUE NOT NULL,
+	estadoPertencente VARCHAR(40) CHECK(estadoPertencente IN('RS', 'PR', 'SC', 'SP', 'ES',  'RJ', 'MG', 'BA', 'MT', 'MS', 'GO', 'SE', 'RO', 'AM', 'AC', 'PE', 'MA', 'PA', 'CE', 'RN', 'PI', 'PB', 'RR', 'AL', 'AP', 'TO', 'DF')),
+	populacao INT NOT NULL
+);
+
+USE agenciaTurismo;
+CREATE TABLE quartos (
+	codigo TINYINT IDENTITY(1,1) PRIMARY KEY,
+	tipo VARCHAR(10) NOT NULL CHECK(tipo IN('Simples', 'Mediano', 'Luxo', 'Superluxo')),
+	numero TINYINT NOT NULL UNIQUE,
+	valorDiaria DECIMAL(6,2) NOT NULL,
+	hotelPertencente TINYINT NOT NULL FOREIGN KEY REFERENCES hoteis(codigo)
+);
+
+USE agenciaTurismo;
+CREATE TABLE hoteis (
+	codigo TINYINT IDENTITY(1,1) PRIMARY KEY,
+	nome VARCHAR(40) UNIQUE NOT NULL,
+	endereco VARCHAR(100) UNIQUE NOT NULL,
+	categoria VARCHAR(20) NOT NULL CHECK(categoria IN('Sem estrela', '1 estrela', '2 estrelas', '3 estrelas', '4 estrelas', '5 estrelas')),
+	cidade TINYINT NOT NULL FOREIGN KEY REFERENCES cidades(codigo),
+	restaurante TINYINT FOREIGN KEY REFERENCES restaurantes(codigo)
+);
+
+USE agenciaTurismo;
+CREATE TABLE restaurantes (
+	codigo TINYINT IDENTITY(1,1) PRIMARY KEY,
+	nome VARCHAR(40) UNIQUE NOT NULL,
+	endereco VARCHAR(100) UNIQUE NOT NULL,
+	categoria VARCHAR(20) NOT NULL, CHECK(categoria IN('Simples', 'Mediano', 'Luxo', 'Superluxo')),
+	precoMedio DECIMAL(5,2) NOT NULL,
+	especialidade VARCHAR(20) NOT NULL CHECK(especialidade IN('Chinesa', 'Japonesa', 'Italiana', 'Fast Food', 'Brasileira')),
+	cidade TINYINT NOT NULL FOREIGN KEY REFERENCES cidades(codigo)
+);
+
+USE agenciaTurismo;
+CREATE TABLE casasDeShow (
+	codigo TINYINT IDENTITY(1,1) PRIMARY KEY,
+	endereco VARCHAR(100) UNIQUE NOT NULL,
+	descricao VARCHAR(500) NOT NULL,
+	horarioInicioShow TIME NOT NULL,
+	diaFechamento DATETIME NOT NULL,
+	cidade TINYINT NOT NULL FOREIGN KEY REFERENCES cidades(codigo),
+	restaurante TINYINT FOREIGN KEY REFERENCES restaurantes(codigo)
+);
