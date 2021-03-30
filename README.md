@@ -1,1 +1,1 @@
-# sql
+Aprendizados de SQL (DDL, DML, DQL)/SQL Server com o curso de MySQL do Curso em Vídeo.

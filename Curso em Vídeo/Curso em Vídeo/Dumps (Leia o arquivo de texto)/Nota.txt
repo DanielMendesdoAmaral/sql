@@ -1,4 +1,4 @@
-O backup cadastro.bak não funciona. O backup que funciona está na pasta de backup do SMSS.
+O backup cadastro.bak não funciona. O backup que funciona está na pasta de backup do SMSS. Caso não esteja, coloque uma cópia de cadastro.bak na pasta de backups do sql server.
 
 Deixei aqui também a query caso a original seja apagada.
 
